@@ -7,6 +7,7 @@
     <title>Weather · Phoenix Framework</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <!--link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/-->
+    <script src="https://kit.fontawesome.com/8d86f52526.js" crossorigin="anonymous"></script>
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body>
