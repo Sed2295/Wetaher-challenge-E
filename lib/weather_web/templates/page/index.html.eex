@@ -1,0 +1,22 @@
+<link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/weather.css") %>"/>
+<h1 class="text-info mt-3 mb-5">Weather challenge</h1>
+<div class="row justify-content-center">
+  <%= for city <- ["Buenos Aires,ar", "Bogota,col", "Ciudad de Mexico,mx", "Madrid,es", "Lima,pe"] do %>
+  <% ciudad = get_cities(city) %>
+  <div class="col-2" >
+    <div class="card border-success mb-3 pointer">
+      <div class="card-header bg-transparent border-success font-weight-bold text-center"><%= ciudad["name"] %></div>
+        <div class="card-body text-center">
+          <h5 class="card-title temp"><%= ciudad["temp"] %> °C</h5>
+        </div>
+        <div class="card-footer bg-transparent border-success text-center">
+          <div>
+            <span class="font-weight-bold">Humedad:</span> <%= ciudad["humidity"] %>%
+            <span class="font-weight-bold">Viento:</span> <%= ciudad["wind"] %>m/s
+            <%= button("+Info", to: "/forecast/#{city}", class: "btn btn-outline-info btn-sm")  %>
+          </div>
+        </div>
+    </div>
+  </div>
+  <%end %>
+</div>
