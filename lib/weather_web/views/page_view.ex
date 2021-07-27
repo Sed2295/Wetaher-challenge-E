@@ -3,11 +3,11 @@ defmodule WeatherWeb.PageView do
   use Timex
   alias Weather.OpenWeather
   def get_city(city) do
-    {:ok, %{body: cuerpo}}= OpenWeather.get_forecast(city)
-    %{"city" => %{"name" => name}} = cuerpo
-    #IO.inspect cuerpo["list"], label: "->"
+    {:ok, %{body: body}}= OpenWeather.get_forecast(city)
+    %{"city" => %{"name" => name}} = body
+    #IO.inspect body["list"], label: "->"
     IO.inspect name
-    filtrado = Enum.filter(cuerpo["list"], fn day ->
+    filterByHour = Enum.filter(body["list"], fn day ->
       #IO.inspect day
       List.last(String.split(day["dt_txt"], " "))
       |> case  do
@@ -17,14 +17,12 @@ defmodule WeatherWeb.PageView do
         _ -> false
       end
     end)
-    #IO.inspect filtrado
+    #IO.inspect filterByHour
     #Si necesitas dividir tu colección en pequeños grupos, chunk_every/2 es la función que
     #probablemente estás buscando:
-    final = Enum.chunk_every(filtrado, 3)
-    IO.inspect final
-    #fechas = Enum.uniq_by(filtrado , fn day -> List.first(String.split(day["dt_txt"], " ")) end)
-    #IO.inspect fechas
-    final
+    #solo 3 horas(6,12 y 18hrs) por día
+    #Order by day
+    IO.inspect Enum.chunk_every(filterByHour, 3)
   end
   def get_cities(city) do
     {:ok, %{body: body}} = OpenWeather.get_weather(city)
@@ -42,9 +40,10 @@ defmodule WeatherWeb.PageView do
     |> Map.get("dt_txt")
     |> String.split(" ")
     |> List.first
-    #IO.inspect Timex.now()
-
-    #Timex.format!({2013,8,18}, "{RFC1123}")
-
+    |> parse_day()
+  end
+  def parse_day(date) do
+    {:ok, result} = Timex.parse(date, "{ISOdate}")
+    Timex.format!(result, "{WDfull}, {D} {Mshort} {YYYY} {Z}")
   end
 end
